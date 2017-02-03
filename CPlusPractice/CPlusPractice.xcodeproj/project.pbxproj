@@ -201,14 +201,11 @@
 				765FE3F51E3984BF0059A80C /* Strings */,
 				765FE4021E3A70C70059A80C /* looping1 */,
 				765FE40D1E3A9E0D0059A80C /* backward_words */,
-<<<<<<< 068db5427bbda200ec1008d9b639ac66eb94e290
 				D39687D41E43C53100EC6701 /* segment_tree */,
 				D39687DF1E446B9300EC6701 /* rmq_dp */,
-=======
 				0642B49C1E4277B20096C294 /* setrange1 */,
 				0642B4A71E428FCC0096C294 /* set_insert_remove */,
 				0642B4B21E4298530096C294 /* set1 */,
->>>>>>> set practice
 				765FE3F41E3984BF0059A80C /* Products */,
 			);
 			sourceTree = "<group>";
