@@ -1,7 +1,8 @@
 //
 //  main.cpp
 //  segment_tree
-//  Code from Competitive Programming 3 book
+//  Code from Competitive Programming 3 book (modified to do range sum query instead of range
+//  minimum
 //  Created by ahaleem on 2/2/17.
 //  Copyright © 2017 Ambreen Haleem. All rights reserved.
 //
