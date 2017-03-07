@@ -9,22 +9,6 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
-<<<<<<< HEAD
-
-using namespace std;
-
-int rmq(int i, int j, vector<int>& array) {
-    
-    int result = 0;
-    vector<vector<int>> M;
-    size_t N = array.size();
-    
-    M.assign(N, vector<int>(log2(N)+1,-1));
-    
-    
-    return result;
-}
-=======
 #include <numeric>
 
 using namespace std;
@@ -81,19 +65,11 @@ public:
 private:
 	vector<int> spt, arr;
 };
->>>>>>> range min query, with DP
 
 int main(int argc, const char * argv[]) {
 	// insert code here...
 	std::cout << "Hello, World!\n";
-<<<<<<< HEAD
-    
-    int N = 16;
-    vector<int> array {2,4,3,1,6,7};
-    rmq(1, 3, array);
-    
-    cout << endl;
-=======
+
 	vector<int> arr = {18, 17, 13, 19, 15};
 	copy(arr.begin(),arr.end(),ostream_iterator<int>(cout,","));
 	cout << endl;
@@ -101,6 +77,5 @@ int main(int argc, const char * argv[]) {
 	
 	cout << endl;
 	cout << "RMQ(0,2) = " << dp.rsq(0,0) << endl;
->>>>>>> range min query, with DP
     return 0;
 }
