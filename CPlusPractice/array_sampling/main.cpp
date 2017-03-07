@@ -13,7 +13,7 @@
 using namespace std;
 
 
-int findIndex(int startIndex,int element,vector<int>& arraySet) {
+int FindIndex(int startIndex,int element,vector<int>& arraySet) {
 	int i = startIndex;
 	for(; i < arraySet.size(); i++) {
 		if(element < arraySet[i]) {
@@ -23,25 +23,25 @@ int findIndex(int startIndex,int element,vector<int>& arraySet) {
 	return -1;
 }
 
-vector<size_t> numWays(vector<vector<int>>& arrays, size_t& N, size_t& K, size_t currentSet) {
-	
-	vector<size_t> intermediateWays(N,0);
+vector<size_t> NumWays(vector<vector<int>>& arrays, size_t& N, size_t& K, size_t setId) {
 
-	if(currentSet == K) {
-		iota(intermediateWays.rbegin(),intermediateWays.rend(),1);
-		return intermediateWays;
+	vector<size_t> waysTable(N,0);
+	if(setId == (K-1)) {
+		iota(waysTable.rbegin(),waysTable.rend(),1);
+		return waysTable;
 	}
-
-	auto ways = numWays(arrays, N, K, (currentSet+1));
+	
+	auto ways = NumWays(arrays, N, K, (setId+1));
 	int index = 0;
 	
 	for(int i = 0; i < N; i++) {
-		index = findIndex(index, arrays[currentSet-1][i], arrays[currentSet]);
-		if(index >= 0)
-			intermediateWays[i] = ways[index];
+		index = FindIndex(index, arrays[setId][i], arrays[setId+1]);
+		if(index >= 0) {
+			waysTable[i] = ways[index];
+		}
 	}
 	
-	return intermediateWays;
+	return waysTable;
 }
 
 size_t numWaysArraySampling(vector<vector<int>>& arrays)
@@ -56,13 +56,17 @@ size_t numWaysArraySampling(vector<vector<int>>& arrays)
 		sort(anArray.begin(), anArray.end());
 	}
 	
-	auto ways = numWays(sortedArrays, N, K, 1);
-	return accumulate( ways.begin(), ways.end(), 0);
+	auto ways = NumWays(sortedArrays, N, K, 0);
+	return accumulate(ways.begin(), ways.end(), 0);
 }
 
 int main(int argc, const char * argv[]) {
 
 	vector<vector<int>> arrays {{10,2,1},{1,1,6}, {7,8,9}};
 	cout << numWaysArraySampling(arrays) << "\n";
+	
+	arrays  = {{2,3,0},{4,2,1}};
+	cout << numWaysArraySampling(arrays) << "\n";
+	
     return 0;
 }
