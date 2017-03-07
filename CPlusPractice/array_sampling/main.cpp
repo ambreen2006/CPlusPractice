@@ -3,6 +3,8 @@
 //  array_sampling
 //
 //  Created by ahaleem on 3/7/17.
+//  Problem-1 from Tech Interview and Competitive Programming Workshop # 21:
+//  https://github.com/eyarovoi/TechInterviewsMeetup/blob/master/Problem%20Solving%20Workshops/PSW021_2017_03_04/PSW021_2017_03_04.pdf
 //  Copyright © 2017 Ambreen Haleem. All rights reserved.
 //
 
