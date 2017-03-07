@@ -44,7 +44,7 @@ vector<size_t> NumWays(vector<vector<int>>& arrays, size_t& N, size_t& K, size_t
 	return waysTable;
 }
 
-size_t numWaysArraySampling(vector<vector<int>>& arrays)
+size_t NumWaysArraySampling(vector<vector<int>>& arrays)
 {
 	if(arrays.size() == 0) return 0;
 	
@@ -63,10 +63,10 @@ size_t numWaysArraySampling(vector<vector<int>>& arrays)
 int main(int argc, const char * argv[]) {
 
 	vector<vector<int>> arrays {{10,2,1},{1,1,6}, {7,8,9}};
-	cout << numWaysArraySampling(arrays) << "\n";
+	cout << NumWaysArraySampling(arrays) << "\n";
 	
 	arrays  = {{2,3,0},{4,2,1}};
-	cout << numWaysArraySampling(arrays) << "\n";
+	cout << NumWaysArraySampling(arrays) << "\n";
 	
     return 0;
 }
