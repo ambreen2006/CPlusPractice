@@ -12,7 +12,6 @@
 
 using namespace std;
 
-
 int FindIndex(int startIndex,int element,vector<int>& arraySet) {
 	int i = startIndex;
 	for(; i < arraySet.size(); i++) {
