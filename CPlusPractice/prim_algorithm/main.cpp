@@ -16,9 +16,6 @@
 
 using namespace std;
 
-template<typename T>
-class Edge;
-
 
 template<typename T>
 struct Vertex {
@@ -26,97 +23,86 @@ struct Vertex {
     Vertex(T pLabel) : label(pLabel) {};
     
     void addEdge(T destination,int weight) {
-        
-        Edge<T> edge;
-        edge.destination = destination;
-        edge.weight = weight;
-        
-        edgesMap[destination] = weight;
+        edges[destination] = weight;
     }
     
     T label;
-    unordered_map<T, Edge<T>> edgesMap;
+    unordered_map<T, int> edges;
 };
-
 
 template<typename T>
 struct Edge {
+	
+	Edge() {}
+	Edge(T pDestination, int pWeight) : destination(pDestination), weight(pWeight) {}
+
     
     T    destination;
     int  weight;
-    
-    friend bool operator > (const Edge<T>& lhs, const Edge<T>& rhs) {
-        return lhs.weight > rhs.weight;
-    }
-    
+
     friend bool operator < (const Edge<T>& lhs, const Edge<T>& rhs) {
-        return lhs.weight < rhs.weight;
+        return ((lhs.weight < rhs.weight) || (lhs.destination < rhs.destination));
     }
 
 };
 
 template<typename T>
-void getMinSpanningTree(vector<shared_ptr<Vertex<T>>> nodes, int infinityMarker) {
-    
+void getMinSpanningTree(unordered_map<T,shared_ptr<Vertex<T>>> nodes, T first, int infinityMarker) {
+	
+	cout << nodes.size() << endl;
+	
     if(nodes.size() == 0) {
         return;
     }
     
-    shared_ptr<Vertex<T>> nearestVertex = nodes[0];
+    shared_ptr<Vertex<T>> nearestVertex = nodes[first];
     set<Edge<T>> distance;
     
-    for(int i = 1; i < nodes.size(); i++) {
-    
-        T label = nodes[i]->label;
-        distance.insert({nodes[i]->label,infinityMarker});
-    }
-    
-    for(auto it = distance.begin(); it!=distance.end();)
-    {
-        
-    }
-    
-    /*
-    for(auto& node : distance) {
-        
-        auto nodePtr = node.destination.lock();
-        if(!nodePtr) continue;
-        
-        auto it = nearestVertex->edgesMap.find(nodePtr->label);
-        if(it!=end && it->second.weight < node.weight) {
-            //node.weight = it->second.weight;
-        }
-        
-    }*/
-    /*
-    unordered_map<T,T>   nearest;
-    unordered_map<T,int> distance;
-    
-    for(int i = 1; i < nodes.size(); i++) {
-        
-        T    label = nodes[i]->label;
-        auto edge  = nearestVertex->edgesMap.find(label);
-
-        nearest[label]  = nearestVertex->label;
-        distance[nodes[i]->label] = (edge!= nearestVertex->edgesMap.end()) ? (edge->second).weight : infinityMarker;
-    
-    }
-
-    int min = infinityMarker;
-
-    int count =  (int)nodes.size();
-    while(count > 1) {
-        
-        
-        
-        count--;
-    }
-    */
+	for(const auto node : nodes) {
+		if(node.first == first) continue;
+		
+        T label    = node.first;
+		distance.emplace(Edge<T>(label,infinityMarker));
+	}
+	
+	while (!distance.empty()) {
+	
+		// Find the nodes for which distance table needs to be updated
+		vector<typename set<Edge<T>>::const_iterator> changedNodes;
+		for(auto it = distance.begin(); it!=distance.end();++it)
+		{
+			auto nearestVertexWeight = nearestVertex->edges.find(it->destination);
+			
+			if(nearestVertexWeight != nearestVertex->edges.end()) {
+				if(nearestVertexWeight->second < it->weight) {
+					changedNodes.emplace_back(it);
+				}
+			}
+		}
+		
+		// Update the table
+		for(auto changed : changedNodes) {
+			Edge<T> edge = *changed;
+			edge.weight = nearestVertex->edges[edge.destination];
+			distance.erase(changed);
+			distance.emplace(edge);
+		}
+		
+		cout << nearestVertex->label << " ";
+		// Get the min cost edge
+		auto minEdge = distance.begin();
+		cout << "<-" << minEdge->weight << "-> " << minEdge->destination << "\n";
+		nearestVertex = nodes[minEdge->destination];
+		distance.erase(minEdge);
+		
+		
+	}
 }
 
 int main(int argc, const char * argv[]) {
     
-    
+
+	
     shared_ptr<Vertex<string>> v1 = make_shared<Vertex<string>>("V1");
     shared_ptr<Vertex<string>> v2 = make_shared<Vertex<string>>("V2");
     shared_ptr<Vertex<string>> v3 = make_shared<Vertex<string>>("V3");
@@ -136,10 +122,17 @@ int main(int argc, const char * argv[]) {
     v3->addEdge("V5", 2);
 
     v5->addEdge("V2", 3);
-    
-    vector<shared_ptr<Vertex<string>>> vertices {v1,v2,v3,v4,v5};
-    
-    getMinSpanningTree(vertices,numeric_limits<int>::max());
+	
+	
+	unordered_map<string,shared_ptr<Vertex<string>>> vertices;/*(({{v1->label,v1},{v2->label,v2},{v3->label,v3},{v4->label,v4},{v5->label,v5}};*/
+	
+	vertices[v1->label] = v1;
+	vertices[v2->label] = v2;
+	vertices[v3->label] = v3;
+	vertices[v4->label] = v4;
+	vertices[v5->label] = v5;
+	
+    getMinSpanningTree(vertices,v1->label,numeric_limits<int>::max());
 
     return 0;
 }
