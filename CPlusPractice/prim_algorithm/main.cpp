@@ -13,7 +13,6 @@
 #include <unordered_map>
 #include <list>
 #include <set>
-
 using namespace std;
 
 
@@ -47,7 +46,7 @@ struct Edge {
 };
 
 template<typename T>
-void getMinSpanningTree(unordered_map<T,shared_ptr<Vertex<T>>> nodes, T first, int infinityMarker) {
+void getMinSpanningTree(unordered_map<T,shared_ptr<Vertex<T>>>& nodes, T first, int infinityMarker) {
 	
 	cout << nodes.size() << endl;
 	
@@ -100,8 +99,6 @@ void getMinSpanningTree(unordered_map<T,shared_ptr<Vertex<T>>> nodes, T first, i
 }
 
 int main(int argc, const char * argv[]) {
-    
-
 	
     shared_ptr<Vertex<string>> v1 = make_shared<Vertex<string>>("V1");
     shared_ptr<Vertex<string>> v2 = make_shared<Vertex<string>>("V2");
@@ -124,8 +121,7 @@ int main(int argc, const char * argv[]) {
     v5->addEdge("V2", 3);
 	
 	
-	unordered_map<string,shared_ptr<Vertex<string>>> vertices;/*(({{v1->label,v1},{v2->label,v2},{v3->label,v3},{v4->label,v4},{v5->label,v5}};*/
-	
+	unordered_map<string,shared_ptr<Vertex<string>>> vertices;
 	vertices[v1->label] = v1;
 	vertices[v2->label] = v2;
 	vertices[v3->label] = v3;
