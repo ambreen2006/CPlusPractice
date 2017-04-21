@@ -8,28 +8,39 @@
 
 #include <iostream>
 #include <vector>
+#include <utility>
 
-size_t find(const std::vector<int>& array, int key) {
+std::pair<bool,size_t> BinarySearch(const std::vector<int>& vect, int key) {
 	
-	auto lower = array.begin();
-	auto upper = array.end()-1;
+	if(vect.size() == 0) return {false,0};
+	auto lower = vect.begin();
+	auto upper = vect.end()-1;
+	
 	while (lower < upper) {
+		
 		auto mid = lower + (upper-lower) /2;
-		if(key == *mid) return std::distance(lower,mid);
+		if(key == *mid)
+		{
+			return {true,std::distance(vect.begin(),mid)};
+		}
 		if(key < *mid)
 			upper = mid-1;
 		else
 			lower = mid+1;
 	}
-	
-	return std::distance(array.begin(),lower);
+	if( *lower == key) {
+		return {true,std::distance(vect.begin(),lower)};
+	}
+	return {false,std::distance(vect.begin(),lower)};
 }
 
 int main(int argc, const char * argv[]) {
 	
-	std::vector<int> arr {2,5,11,14};
-	auto result = find(arr,5);
-	std::cout << result << std::endl;
+	std::vector<int> arr {5,7,11};
+	auto result = BinarySearch(arr,5);
+	if(result.first)
+		std::cout << result.second << std::endl;
+	else
+		std::cout << "Not found " << std::endl;
 	return 0;
-	
 }
